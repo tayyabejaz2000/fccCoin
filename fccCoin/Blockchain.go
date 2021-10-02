@@ -49,10 +49,9 @@ func (b *blockchain) BlockMining(miner_details string) *block {
 	b.NewData("0", miner_details, 1)
 	var lastBlock = b.LatestBlock()
 
-	var lastProofNo = lastBlock.proof_no
-	var proof_no = ProofOfWork(lastProofNo)
-
 	var lastHash = lastBlock.BlockHash()
+	var proof_no = ProofOfWork(lastHash)
+
 	var block = b.AddBlock(proof_no, lastHash)
 
 	return block

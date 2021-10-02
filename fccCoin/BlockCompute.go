@@ -10,15 +10,15 @@ import (
 
 const difficulty = 4
 
-func VerifyingProof(last_proof int64, proof_no int64) bool {
-	var blob = bytes.NewBufferString(fmt.Sprint(last_proof, proof_no))
-	var guess_hash = sha256.Sum256(blob.Bytes())
+func VerifyingProof(last_hash [32]byte, proof_no int64) bool {
+	var blob = fmt.Sprint(last_hash[:], proof_no)
+	var guess_hash = sha256.Sum256([]byte(blob))
 	return hex.EncodeToString(guess_hash[:])[:4] == strings.Repeat("0", difficulty)
 }
 
-func ProofOfWork(last_proof int64) int64 {
+func ProofOfWork(last_hash [32]byte) int64 {
 	var proof_no int64 = 0
-	for !VerifyingProof(proof_no, last_proof) {
+	for !VerifyingProof(last_hash, proof_no) {
 		proof_no++
 	}
 	return proof_no
