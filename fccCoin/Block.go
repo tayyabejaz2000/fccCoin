@@ -63,7 +63,7 @@ func (curr_block *block) CheckValidity(prev_block *block) bool {
 		return false
 	} else if prev_block.BlockHash() != curr_block.prev_hash {
 		return false
-	} else if !VerifyingProof(curr_block.proof_no, prev_block.proof_no) {
+	} else if !VerifyingProof(prev_block.BlockHash(), curr_block.proof_no) {
 		return false
 	} else if curr_block.timestamp.Before(prev_block.timestamp) {
 		return false
